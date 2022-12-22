@@ -6,6 +6,7 @@ class Desenvolvedor(AbstractUserRole):
         'addProduct': True,
         'discount': True,
         'addSeller': True,
+        'deleteAccount': True,
         'sell': True,
     }
 
@@ -14,6 +15,7 @@ class Gerente(AbstractUserRole):
         'addProduct': True,
         'discount': True,
         'addSeller': True,
+        'deleteAccount': True,
     }
 
 class Vendedor(AbstractUserRole):

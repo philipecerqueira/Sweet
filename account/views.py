@@ -1,6 +1,6 @@
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from rolepermissions.decorators import has_permission_decorator
 
@@ -10,7 +10,8 @@ from .models import Account
 @has_permission_decorator('addSeller')
 def addSeller(request):
     if request.method == 'GET':
-        return render(request, 'addSeller.html')
+        seller = Account.objects.filter(job="V")
+        return render(request, 'addSeller.html', {"vendedores": seller})
 
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -51,4 +52,10 @@ def logout(request):
     request.session.flush()
     return redirect(reverse('login'))
 
+@has_permission_decorator('deleteAccount')
+def deleteAccount(request, id):
+    seller = get_object_or_404(Account, id=id)
+    seller.delete()
+    messages.add_message(request, messages.SUCCESS, 'Conta deletada com sucesso')
+    return redirect(reverse('addSeller'))
 
