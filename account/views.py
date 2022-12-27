@@ -13,7 +13,10 @@ def addSeller(request):
         seller = Account.objects.filter(job="V")
         return render(request, 'addSeller.html', {"vendedores": seller})
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
+        #TODO: validar dados
+        name = request.POST.get('name')
+        lastName = request.POST.get('lastName')
         email = request.POST.get('email')
         password = request.POST.get('password')
 
@@ -24,7 +27,14 @@ def addSeller(request):
             return HttpResponse('Email já existe')
 
         # TODO: Depois permitir o login tanto com email tanto com username
-        user = Account.objects.create_user(username=email, email=email, password=password, job="V")
+        user = Account.objects.create_user(
+            first_name=name,
+            last_name=lastName,
+            username=email,
+            email=email,
+            password=password,
+            job="V"
+        )
 
         # TODO: Redirecionar com uma mensagem
         return HttpResponse('Conta criada')

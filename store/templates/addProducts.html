@@ -1,0 +1,46 @@
+
+{% extends 'base.html' %} 
+
+{% block 'title' %} 
+ - Cadastrar Vendedor
+{% endblock %}
+
+{% block 'body' %}
+<div class="container">
+<form action="{% url 'addProducts' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+    <div class="mb-3">
+        <label for="">Imagens: </label>
+        <input type="file" name="images" multiple>
+    </div>
+    <div class="mb-3">
+        <label for="name" class="form-label">Nome</label>
+        <input type="text" name="name" class="form-control" id="name" >  
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Selecione a categoria do produto</label>
+        <select name="category_id">
+            {% for category in categorys %}
+                <option value="{{category.id}}">{{category.title}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="quantity" class="form-label">Estoque inicial</label>
+        <input type="number" name="quantity" class="form-control" id="quantity" >  
+    </div>
+    
+    <div class="mb-3">
+        <label for="priceBuy" class="form-label">Preço de compra</label> <span class="form-text">preço que comprou o produto / gasto total final</span>
+        <input type="number" name="priceBuy" class="form-control" id="priceBuy" >
+        
+    </div>
+    
+    <div class="mb-3">
+        <label for="priceSell" class="form-label">Preço de venda</label>
+        <input type="number" name="priceSell" class="form-control" id="priceSell" >  
+    </div>
+
+    <input type="submit" value="Enviar" class="btn btn-success"/>
+</form>
+</div>
+{% endblock %}

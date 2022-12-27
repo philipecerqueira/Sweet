@@ -23,3 +23,7 @@ class Product(models.Model):
     def profit(self):
         profit = self.priceSell - self.priceBuy
         return (profit * 100) / self.priceBuy
+
+class Image(models.Model):
+    image = models.ImageField(upload_to="products_images")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
