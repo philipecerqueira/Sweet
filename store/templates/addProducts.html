@@ -1,5 +1,6 @@
 
 {% extends 'base.html' %} 
+{% load filters %} 
 
 {% block 'title' %} 
  - Cadastrar Vendedor
@@ -7,40 +8,69 @@
 
 {% block 'body' %}
 <div class="container">
-<form action="{% url 'addProducts' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-    <div class="mb-3">
-        <label for="">Imagens: </label>
-        <input type="file" name="images" multiple>
-    </div>
-    <div class="mb-3">
-        <label for="name" class="form-label">Nome</label>
-        <input type="text" name="name" class="form-control" id="name" >  
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Selecione a categoria do produto</label>
-        <select name="category_id">
-            {% for category in categorys %}
-                <option value="{{category.id}}">{{category.title}}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="mb-3">
-        <label for="quantity" class="form-label">Estoque inicial</label>
-        <input type="number" name="quantity" class="form-control" id="quantity" >  
-    </div>
-    
-    <div class="mb-3">
-        <label for="priceBuy" class="form-label">Preço de compra</label> <span class="form-text">preço que comprou o produto / gasto total final</span>
-        <input type="number" name="priceBuy" class="form-control" id="priceBuy" >
+    {% if messages %}
+        <br>
+        {% for message in messages %}
+            <div class="alert {{message.tags}}">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <form action="{% url 'addProducts' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+        <div class="mb-3">
+            <label for="">Imagens: </label>
+            <input type="file" name="images" multiple>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input type="text" name="name" class="form-control" id="name" >  
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Selecione a categoria do produto</label>
+            <select name="category_id">
+                {% for category in categorys %}
+                    <option value="{{category.id}}">{{category.title}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Estoque inicial</label>
+            <input type="number" name="quantity" class="form-control" id="quantity" >  
+        </div>
         
-    </div>
-    
-    <div class="mb-3">
-        <label for="priceSell" class="form-label">Preço de venda</label>
-        <input type="number" name="priceSell" class="form-control" id="priceSell" >  
-    </div>
+        <div class="mb-3">
+            <label for="priceBuy" class="form-label">Preço de compra</label> <span class="form-text">preço que comprou o produto / gasto total final</span>
+            <input type="number" name="priceBuy" class="form-control" id="priceBuy" >
+            
+        </div>
+        
+        <div class="mb-3">
+            <label for="priceSell" class="form-label">Preço de venda</label>
+            <input type="number" name="priceSell" class="form-control" id="priceSell" >  
+        </div>
 
-    <input type="submit" value="Enviar" class="btn btn-success"/>
-</form>
+        <input type="submit" value="Enviar" class="btn btn-success"/>
+    </form>
+    <hr class="bg-hr">
+    <div class="listProducts">
+        <div class="row">
+            {% for product in products %}
+                <div class="col-sm-4 col-lg-2 mb-3">
+                    <div style="background-color: #020202;" class="card" style="width: 18rem;">
+                        {% if product|get_first_image %}
+                            <img width="100%" class="card-img-top" src="{{product|get_first_image}}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{product.name}}</h5>
+                            <span class="badge badge-info">{{product.category}}</span>
+                            <br>
+                            <br>
+                            <a href="#" class="btn btn-primary">Acessar</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock %}

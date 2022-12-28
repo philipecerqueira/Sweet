@@ -23,8 +23,8 @@ def addSeller(request):
         user = Account.objects.filter(email=email)
 
         if user.exists():
-            # TODO: Utilizar messages do django
-            return HttpResponse('Email já existe')
+            messages.add_message(request, messages.ERROR, 'Email já cadastrado, por favor utilize outro email')
+            return redirect(reverse('addSeller'))
 
         # TODO: Depois permitir o login tanto com email tanto com username
         user = Account.objects.create_user(

@@ -2,9 +2,11 @@ import sys
 from datetime import date
 from io import BytesIO
 
+from django.contrib import messages
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from PIL import Image as Img
 from PIL import ImageDraw
 
@@ -14,7 +16,8 @@ from .models import Category, Image, Product
 def addProducts(request):
     if request.method == 'GET':
         categorys = Category.objects.all()
-        return render(request, 'addProducts.html', {'categorys': categorys})
+        products = Product.objects.all()
+        return render(request, 'addProducts.html', {'categorys': categorys, 'products': products})
     elif request.method == 'POST':
         name = request.POST.get('name')
         category_id = request.POST.get('category_id')
@@ -31,7 +34,7 @@ def addProducts(request):
         product.save()
 
         for file in request.FILES.getlist('images'):
-            imgName = f'{date.today()} - {product.id}.jpg'
+            imgName = f'{date.today()} {product.name}.jpeg'
 
             openImage = Img.open(file)
             openImage = openImage.convert('RGB')
@@ -51,5 +54,5 @@ def addProducts(request):
 
             img = Image(image = finalImg, product=product)
             img.save()
-
-        return HttpResponse('Foi')
+        messages.add_message(request, messages.SUCCESS, 'Produto cadastrado com sucesso')
+        return redirect(reverse('addProducts'))
