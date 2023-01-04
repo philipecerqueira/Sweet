@@ -55,18 +55,21 @@
     <div class="listProducts">
         <div class="row">
             {% for product in products %}
-                <div class="col-sm-4 col-lg-2 mb-3">
-                    <div style="background-color: #020202;" class="card" style="width: 18rem;">
+                <div class="col-md">
+                    <div style="background-color: #020202; width: 18rem;" class="card">
                         {% if product|get_first_image %}
                             <img width="100%" class="card-img-top" src="{{product|get_first_image}}">
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{product.name}}</h5>
-                            <span class="badge badge-info">{{product.category}}</span>
-                            <br>
-                            <br>
-                            <a href="#" class="btn btn-primary">Acessar</a>
+                            <span class="card-subtitle mb-2 text-muted">{{product.category}}</span>
                         </div>
+                        <ul class="list-group list-group-flush mb-2">
+                            <li style="background-color: #020202; color: #fff;" class="list-group-item">Estoque inicial: {{product.quantity}}</li>
+                            <li style="background-color: #020202; color: #fff;" class="list-group-item">Preço de compra: {{product.priceBuy}}</li>
+                            <li style="background-color: #020202; color: #fff;" class="list-group-item">Preço de venda: {{product.priceSell}}</li>
+                          </ul>
+                        <a href="{% url 'product' product.slug %}" class="btn btn-primary pull-bottom">Acessar</a>
                     </div>
                 </div>
             {% endfor %}

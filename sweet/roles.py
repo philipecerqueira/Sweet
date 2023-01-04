@@ -3,7 +3,7 @@ from rolepermissions.roles import AbstractUserRole
 
 class Desenvolvedor(AbstractUserRole):
     available_permissions = {
-        'addProduct': True,
+        'addProducts': True,
         'discount': True,
         'addSeller': True,
         'deleteAccount': True,
@@ -12,7 +12,7 @@ class Desenvolvedor(AbstractUserRole):
 
 class Gerente(AbstractUserRole):
     available_permissions = {
-        'addProduct': True,
+        'addProducts': True,
         'discount': True,
         'addSeller': True,
         'deleteAccount': True,

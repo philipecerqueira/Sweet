@@ -36,8 +36,8 @@ def addSeller(request):
             job="V"
         )
 
-        # TODO: Redirecionar com uma mensagem
-        return HttpResponse('Conta criada')
+        messages.add_message(request, messages.SUCCESS, 'Conta cadastrada com sucesso')
+        return redirect(reverse('addSeller'))
 
 def login(request):
     if request.method == 'GET':
@@ -52,8 +52,8 @@ def login(request):
         user = auth.authenticate(username=login, password=password)
 
         if not user:
-            # TODO: Redirecionar com messagem de erro
-            return HttpResponse('Email já existe')
+            messages.add_message(request, messages.ERROR, 'Erro ao tentar acessar, dados inválidos')
+            return redirect(reverse('login'))
         
         auth.login(request, user)
         return HttpResponse('Usuario logado com sucesso')
